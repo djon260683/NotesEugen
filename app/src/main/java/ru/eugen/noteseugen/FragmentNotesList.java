@@ -1,5 +1,6 @@
 package ru.eugen.noteseugen;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,16 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class FragmentNotesList extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_name_notes, container, false);
@@ -42,6 +34,21 @@ public class FragmentNotesList extends Fragment {
             nt.setText(notes[i]);
             nt.setTextSize(22);
             lv.addView(nt);
+            final int fi = i;
+            nt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showFragment(fi);
+                }
+            });
+
         }
+    }
+
+    private void showFragment(int index) {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), PortretActivity.class);
+        intent.putExtra(FragmentNote.INDEX, index);
+        startActivity(intent);
     }
 }
