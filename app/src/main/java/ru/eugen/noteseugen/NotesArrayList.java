@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class NotesArrayList implements Parcelable {
     private ArrayList<Note> notesArrayList;
 
+    public ArrayList<Note> getNotesArrayList() {
+        return notesArrayList;
+    }
+
     protected NotesArrayList(Parcel in) {
         notesArrayList = new ArrayList<>();
         in.readTypedList(notesArrayList, Note.CREATOR);
