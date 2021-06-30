@@ -5,23 +5,23 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Notes implements Parcelable {
+public class NotesArrayList implements Parcelable {
     private ArrayList<Note> notesArrayList;
 
-    protected Notes(Parcel in) {
+    protected NotesArrayList(Parcel in) {
         notesArrayList = new ArrayList<>();
         in.readTypedList(notesArrayList, Note.CREATOR);
     }
 
-    public static final Creator<Notes> CREATOR = new Creator<Notes>() {
+    public static final Creator<NotesArrayList> CREATOR = new Creator<NotesArrayList>() {
         @Override
-        public Notes createFromParcel(Parcel in) {
-            return new Notes(in);
+        public NotesArrayList createFromParcel(Parcel in) {
+            return new NotesArrayList(in);
         }
 
         @Override
-        public Notes[] newArray(int size) {
-            return new Notes[size];
+        public NotesArrayList[] newArray(int size) {
+            return new NotesArrayList[size];
         }
     };
 
