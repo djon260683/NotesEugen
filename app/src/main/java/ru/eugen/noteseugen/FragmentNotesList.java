@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class FragmentNotesList extends Fragment {
+    public static final String INDEX = "INDEX";
+    private int index = 0; // Текущая позиция
+
     private boolean isLandscape;
 
 
@@ -36,8 +39,12 @@ public class FragmentNotesList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        if (savedInstanceState != null) {
+            index = savedInstanceState.getInt(INDEX, 0);
+        }
         if (isLandscape) {
-            showLandFragment(0);
+            showLandFragment(index);
         }
     }
 
@@ -53,12 +60,18 @@ public class FragmentNotesList extends Fragment {
             nt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showFragment(fi);
+                    index = fi;
+                    showFragment(index);
                 }
             });
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(INDEX, index);
+        super.onSaveInstanceState(outState);
+    }
 
     private void showFragment(int index) {
         if (isLandscape) {

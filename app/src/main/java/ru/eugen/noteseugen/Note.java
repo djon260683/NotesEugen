@@ -3,16 +3,27 @@ package ru.eugen.noteseugen;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
 
 public class Note implements Parcelable {
     private String name;
-    private String text;
-    private Date date;
+    private int index;
 
+    public Note(String name, int index) {
+        this.name = name;
+        this.index = index;
+    }
 
     protected Note(Parcel in) {
+        index = in.readInt();
+        name = in.readString();
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getIndex());
+        dest.writeString(getName());
+    }
+
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
         @Override
@@ -31,32 +42,11 @@ public class Note implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public int getIndex() {
+        return index;
     }
 }
