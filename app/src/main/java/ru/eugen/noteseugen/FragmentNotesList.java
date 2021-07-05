@@ -18,7 +18,8 @@ import android.widget.TextView;
 
 public class FragmentNotesList extends Fragment {
     public static final String INDEX = "INDEX";
-    private int index = 0; // Текущая позиция
+    private Note indexNote;
+
 
     private boolean isLandscape;
 
@@ -41,10 +42,12 @@ public class FragmentNotesList extends Fragment {
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         if (savedInstanceState != null) {
-            index = savedInstanceState.getInt(INDEX, 0);
+            indexNote = savedInstanceState.getParcelable(INDEX);
+        } else {
+            indexNote = new Note(getResources().getStringArray(R.array.notes)[0], 0);
         }
         if (isLandscape) {
-            showLandFragment(index);
+            showLandFragment(indexNote);
         }
     }
 
@@ -60,8 +63,8 @@ public class FragmentNotesList extends Fragment {
             nt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    index = fi;
-                    showFragment(index);
+                    indexNote = new Note(getResources().getStringArray(R.array.notes)[fi], fi);
+                    showFragment(indexNote);
                 }
             });
         }
@@ -69,30 +72,30 @@ public class FragmentNotesList extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(INDEX, index);
+        outState.putParcelable(INDEX, indexNote);
         super.onSaveInstanceState(outState);
     }
 
-    private void showFragment(int index) {
+    private void showFragment(Note indexNote) {
         if (isLandscape) {
-            showLandFragment(index);
+            showLandFragment(indexNote);
         } else {
-            showPortFragment(index);
+            showPortFragment(indexNote);
         }
     }
 
-    private void showLandFragment(int index) {
-        FragmentNote details = FragmentNote.newInstance(index);
+    private void showLandFragment(Note indexNote) {
+        FragmentNote details = FragmentNote.newInstance(indexNote);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment, details);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
-    private void showPortFragment(int index) {
+    private void showPortFragment(Note indexNote) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), PortretActivity.class);
-        intent.putExtra(FragmentNote.INDEX, index);
+        intent.putExtra(FragmentNote.NOTE, indexNote);
         startActivity(intent);
     }
 }

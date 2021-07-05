@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class FragmentNote extends Fragment {
-    public static final String INDEX = "index";
-    private int index;
+    public static final String NOTE = "NOTE";
+    private Note note;
 
     public FragmentNote() {
         // Required empty public constructor
     }
 
-    public static FragmentNote newInstance(int index) {
+    public static FragmentNote newInstance(Note note) {
         FragmentNote fragment = new FragmentNote();
         Bundle args = new Bundle();
-        args.putInt(INDEX, index);
+        args.putParcelable(NOTE, note);
         fragment.setArguments(args);
         return fragment;
     }
@@ -29,7 +29,7 @@ public class FragmentNote extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            index = getArguments().getInt(INDEX);
+            note = getArguments().getParcelable(NOTE);
         }
     }
 
@@ -44,11 +44,11 @@ public class FragmentNote extends Fragment {
         String[] notesDate = getResources().getStringArray(R.array.date);
         String[] notesEssence = getResources().getStringArray(R.array.essence);
 
-        tv_note.setText(notes[index]);
+        tv_note.setText(notes[note.getIndex()]);
         tv_note.setTextSize(18);
-        tv_date.setText(notesDate[index]);
+        tv_date.setText(notesDate[note.getIndex()]);
         tv_date.setTextSize(14);
-        tv_essence.setText(notesEssence[index]);
+        tv_essence.setText(notesEssence[note.getIndex()]);
         tv_essence.setTextSize(22);
 
         return view;
