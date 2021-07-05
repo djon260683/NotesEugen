@@ -10,4 +10,22 @@
         <item>Решения</item>
         <item>Возможности</item>
     </string-array>
+
+    <string-array name="date">
+        <item>14.06.21</item>
+        <item>15.06.21</item>
+        <item>16.06.21</item>
+        <item>17.06.21</item>
+        <item>18.06.21</item>
+    </string-array>
+
+    <string-array name="essence">
+        <item>Здесь записаны все дела</item>
+        <item>Здесь записаны все покупки</item>
+        <item>Здесь записаны все траты</item>
+        <item>Здесь записаны все решения</item>
+        <item>Здесь записаны все возможности</item>
+    </string-array>
+
+
 </resources>

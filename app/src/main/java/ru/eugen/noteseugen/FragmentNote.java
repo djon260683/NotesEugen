@@ -36,10 +36,21 @@ public class FragmentNote extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note, container, false);
-        TextView tv = view.findViewById(R.id.note);
+        TextView tv_note = view.findViewById(R.id.note);
+        TextView tv_date = view.findViewById(R.id.date);
+        TextView tv_essence = view.findViewById(R.id.essence);
+
         String[] notes = getResources().getStringArray(R.array.notes);
-        tv.setText(notes[index]);
-        tv.setTextSize(22);
+        String[] notesDate = getResources().getStringArray(R.array.date);
+        String[] notesEssence = getResources().getStringArray(R.array.essence);
+
+        tv_note.setText(notes[index]);
+        tv_note.setTextSize(18);
+        tv_date.setText(notesDate[index]);
+        tv_date.setTextSize(14);
+        tv_essence.setText(notesEssence[index]);
+        tv_essence.setTextSize(22);
+
         return view;
     }
 }
