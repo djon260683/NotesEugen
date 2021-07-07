@@ -1,20 +1,25 @@
 package ru.eugen.noteseugen;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FragmentNotesList extends Fragment {
     public static final String INDEX = "INDEX";
@@ -29,6 +34,7 @@ public class FragmentNotesList extends Fragment {
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -62,7 +68,8 @@ public class FragmentNotesList extends Fragment {
             final int fi = i;
             nt.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    //initPopupMenu(view);// здесь должно быть контекстное меню
                     indexNote = new Note(getResources().getStringArray(R.array.notes)[fi], fi);
                     showFragment(indexNote);
                 }
@@ -92,6 +99,7 @@ public class FragmentNotesList extends Fragment {
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
+
     private void showPortFragment(Note indexNote) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), PortretActivity.class);

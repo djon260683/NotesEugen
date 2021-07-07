@@ -4,6 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_context_search">Поиск</string>
     <string name="menu_context_settings">Настройки</string>
+    <string name="menu_popup_delete">Удалить</string>
 
     <string-array name="notes">
         <item>Дела</item>
