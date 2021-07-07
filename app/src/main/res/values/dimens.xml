@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="width_0dp">0dp</dimen>
+    <dimen name="height_port_hider">250dp</dimen>
+    <dimen name="height_land_hider">150dp</dimen>
+    <dimen name="width_image_port_header">170dp</dimen>
+    <dimen name="height_image_port_header">110dp</dimen>
+    <dimen name="width_image_land_header">100dp</dimen>
+    <dimen name="height_image_land_header">70dp</dimen>
+
+    <dimen name="textSize_name_master">20sp</dimen>
+    <dimen name="textSize_dop_info">15sp</dimen>
+    <dimen name="textSize_name_port_header">30sp</dimen>
+    <dimen name="textSize_name_land_header">20sp</dimen>
+</resources>

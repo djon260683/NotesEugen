@@ -32,13 +32,13 @@
             <fragment
                 android:id="@+id/notes"
                 android:name="ru.eugen.noteseugen.FragmentNotesList"
-                android:layout_width="0px"
+                android:layout_width="@dimen/width_0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"></fragment>
 
             <FrameLayout
                 android:id="@+id/fragment"
-                android:layout_width="0px"
+                android:layout_width="@dimen/width_0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 

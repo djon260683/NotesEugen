@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="@dimen/height_port_hider"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="170dp"
-        android:layout_height="110dp"
+        android:layout_width="@dimen/width_image_port_header"
+        android:layout_height="@dimen/height_image_port_header"
         android:src="@drawable/image" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Евгений"
-        android:textSize="20sp" />
+        android:text="@string/name_master"
+        android:textSize="@dimen/textSize_name_master" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Почтовый индекс: 628400"
-        android:textSize="15sp" />
+        android:text="@string/text_dop_info"
+        android:textSize="@dimen/textSize_dop_info" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Мои Заметки и Задачи"
-        android:textSize="30sp" />
+        android:text="@string/text_name_header"
+        android:textSize="@dimen/textSize_name_port_header" />
 </LinearLayout>
