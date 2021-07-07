@@ -62,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, "Выбраны настройки", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_notes:
+                Toast.makeText(MainActivity.this, "Выбраны заметки", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_tasks:
+                Toast.makeText(MainActivity.this, "Выбраны задачи", Toast.LENGTH_SHORT).show();
+                return true;
         }
         return false;
     }
