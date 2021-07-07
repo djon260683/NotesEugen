@@ -69,7 +69,6 @@ public class FragmentNotesList extends Fragment {
             nt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //initPopupMenu(view);// здесь должно быть контекстное меню
                     indexNote = new Note(getResources().getStringArray(R.array.notes)[fi], fi);
                     showFragment(indexNote);
                 }

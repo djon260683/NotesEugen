@@ -5,6 +5,10 @@
     <string name="menu_context_search">Поиск</string>
     <string name="menu_context_settings">Настройки</string>
     <string name="menu_popup_delete">Удалить</string>
+    <string name="menu_drawe_notes">Заметки</string>
+    <string name="menu_drawer_tasks">Задачи</string>
+    <string name="menu_drawer_open">Открыть</string>
+    <string name="mneu_drawer_close">Закрыть</string>
 
     <string-array name="notes">
         <item>Дела</item>
