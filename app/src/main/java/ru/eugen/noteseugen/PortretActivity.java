@@ -1,6 +1,7 @@
 package ru.eugen.noteseugen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -20,5 +21,15 @@ public class PortretActivity extends AppCompatActivity {
             details.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().replace(R.id.container, details).commit();
         }
+        initView();
+    }
+    private void initView() {
+        initToolBar();
+
+    }
+
+    private void initToolBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 }
