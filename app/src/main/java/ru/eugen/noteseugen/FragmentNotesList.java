@@ -58,15 +58,19 @@ public class FragmentNotesList extends Fragment {
     }
 
     private void initListNotesName(View view) {
-        LinearLayout lv = (LinearLayout) view;
+        LinearLayout layoutView = (LinearLayout) view;
         String[] notes = getResources().getStringArray(R.array.notes);
+
+        LayoutInflater ltInflater = getLayoutInflater();
+
         for (int i = 0; i < notes.length; i++) {
-            TextView nt = new TextView(getContext());
-            nt.setText(notes[i]);
-            nt.setTextSize(22);
-            lv.addView(nt);
+            View item = ltInflater.inflate(R.layout.item, layoutView, false);
+            TextView noteListItem = item.findViewById(R.id.textViewItem);
+            noteListItem.setText(notes[i]);
+            layoutView.addView(item);
             final int fi = i;
-            nt.setOnClickListener(new View.OnClickListener() {
+
+            noteListItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     indexNote = new Note(getResources().getStringArray(R.array.notes)[fi], fi);
