@@ -49,6 +49,13 @@ public class FragmentNotesList extends Fragment {
 
         NotesAdapter adapter = new NotesAdapter(notes);
         recyclerView.setAdapter(adapter);
+        adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                indexNote = new Note(getResources().getStringArray(R.array.notes)[position], position);
+                showFragment(indexNote);
+            }
+        });
     }
 
 
