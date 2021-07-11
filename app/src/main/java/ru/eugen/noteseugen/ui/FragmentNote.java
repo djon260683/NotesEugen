@@ -1,4 +1,4 @@
-package ru.eugen.noteseugen;
+package ru.eugen.noteseugen.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ru.eugen.noteseugen.data.Note;
+import ru.eugen.noteseugen.R;
 
 public class FragmentNote extends Fragment {
     public static final String NOTE = "NOTE";

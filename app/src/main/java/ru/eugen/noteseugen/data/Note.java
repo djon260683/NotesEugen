@@ -1,4 +1,4 @@
-package ru.eugen.noteseugen;
+package ru.eugen.noteseugen.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

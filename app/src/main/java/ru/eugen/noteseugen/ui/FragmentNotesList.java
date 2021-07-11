@@ -1,13 +1,11 @@
-package ru.eugen.noteseugen;
+package ru.eugen.noteseugen.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,15 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import ru.eugen.noteseugen.ui.NotesAdapter;
+import ru.eugen.noteseugen.data.CardsSource;
+import ru.eugen.noteseugen.data.CardsSourceImpl;
+import ru.eugen.noteseugen.data.Note;
+import ru.eugen.noteseugen.PortraitActivity;
+import ru.eugen.noteseugen.R;
 
 public class FragmentNotesList extends Fragment {
     public static final String INDEX = "INDEX";
@@ -37,12 +34,12 @@ public class FragmentNotesList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-        String[] notes = getResources().getStringArray(R.array.notes);
+        CardsSource notes = new CardsSourceImpl(getResources()).init();
         initRecyclerView(recyclerView, notes);
         return view;
     }
 
-    private void initRecyclerView(RecyclerView recyclerView, String[] notes) {
+    private void initRecyclerView(RecyclerView recyclerView, CardsSource notes) {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -128,7 +125,7 @@ public class FragmentNotesList extends Fragment {
 
     private void showPortFragment(Note indexNote) {
         Intent intent = new Intent();
-        intent.setClass(getActivity(), PortretActivity.class);
+        intent.setClass(getActivity(), PortraitActivity.class);
         intent.putExtra(FragmentNote.NOTE, indexNote);
         startActivity(intent);
     }

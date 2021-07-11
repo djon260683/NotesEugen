@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-public class PortretActivity extends AppCompatActivity {
+import ru.eugen.noteseugen.ui.FragmentNote;
+
+public class PortraitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

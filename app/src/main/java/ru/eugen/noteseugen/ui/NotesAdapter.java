@@ -3,19 +3,20 @@ package ru.eugen.noteseugen.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.eugen.noteseugen.R;
+import ru.eugen.noteseugen.data.Card;
+import ru.eugen.noteseugen.data.CardsSource;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
-    private String[] dataSource;
+    private CardsSource dataSource;
     private OnItemClickListener itemClickListener;
 
-    public NotesAdapter(String[] dataSource) {
+    public NotesAdapter(CardsSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -28,12 +29,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull  NotesAdapter.ViewHolder viewHolder, int position) {
-        viewHolder.getTextView().setText(dataSource[position]);
+        viewHolder.setData(dataSource.getCard(position));
     }
 
     @Override
     public int getItemCount() {
-        return dataSource.length;
+        return dataSource.size();
     }
 
     public interface OnItemClickListener {
@@ -45,12 +46,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView;
+
+        private TextView note;
+        private TextView date;
+        private TextView essence;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
-            textView.setOnClickListener(new View.OnClickListener() {
+            note = itemView.findViewById(R.id.note);
+            date = itemView.findViewById(R.id.date);
+            essence = itemView.findViewById(R.id.essence);
+
+            note.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null) {
@@ -59,9 +66,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
                 }
             });
         }
-
-        public TextView getTextView() {
-            return textView;
+        public void setData(Card cardData){
+            note.setText(cardData.getNote());
+            date.setText(cardData.getDate());
+            essence.setText(cardData.getEssence());
         }
     }
 }
