@@ -7,13 +7,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.google.android.material.navigation.NavigationView;
+import ru.eugen.noteseugen.ui.FragmentNotesList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,16 +23,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState==null){
+            FragmentNotesList details = FragmentNotesList.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.notes, details);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.commit();
+        }
         initView();
-
-
     }
 
     private void initView() {
         Toolbar toolbar = initToolBar();
         initDrawer(toolbar);
     }
-
 
     private Toolbar initToolBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -1,6 +1,5 @@
 package ru.eugen.noteseugen.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -12,24 +11,34 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import ru.eugen.noteseugen.data.CardsSource;
 import ru.eugen.noteseugen.data.CardsSourceImpl;
 import ru.eugen.noteseugen.data.Note;
-import ru.eugen.noteseugen.PortraitActivity;
 import ru.eugen.noteseugen.R;
 
 public class FragmentNotesList extends Fragment {
-    public static final String INDEX = "INDEX";
-    private Note indexNote;
-
-
+    public static final String NOTE = "NOTE";
+    private Note note;
     private boolean isLandscape;
+    public static boolean isInstance;
 
+    public static FragmentNotesList newInstance() {
+        FragmentNotesList fragment = new FragmentNotesList();
+        isInstance = false;
+        return fragment;
+    }
+
+    public static FragmentNotesList newInstanceNote(Note note) {
+        FragmentNotesList fragment = new FragmentNotesList();
+        Bundle args = new Bundle();
+        args.putParcelable(NOTE, note);
+        fragment.setArguments(args);
+        isInstance = true;
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,60 +64,46 @@ public class FragmentNotesList extends Fragment {
         adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                indexNote = new Note(getResources().getStringArray(R.array.notes)[position], position);
-                showFragment(indexNote);
+                note = new Note(getResources().getStringArray(R.array.notes)[position], position);
+                showFragment(note);
             }
         });
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        initListNotesName(view);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
-        if (savedInstanceState != null) {
-            indexNote = savedInstanceState.getParcelable(INDEX);
-        } else {
-            indexNote = new Note(getResources().getStringArray(R.array.notes)[0], 0);
+        if (getArguments() != null) {
+            note = getArguments().getParcelable(NOTE);
         }
-        if (isLandscape) {
-            showLandFragment(indexNote);
+        if (savedInstanceState != null) {
+            note = savedInstanceState.getParcelable(NOTE);
+        }
+        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if (isLandscape==true && note == null) {
+            clearLandFragment();
+        }
+        if (isLandscape==true && note != null && isInstance == false) {
+            showLandFragment(note);
+        }
+        if (isLandscape==false && note != null) {
+            showPortFragment(note);
         }
     }
 
-//    private void initListNotesName(View view) {
-//        LinearLayout layoutView = (LinearLayout) view;
-//        String[] notes = getResources().getStringArray(R.array.notes);
-//
-//        LayoutInflater ltInflater = getLayoutInflater();
-//
-//        for (int i = 0; i < notes.length; i++) {
-//            View item = ltInflater.inflate(R.layout.item, layoutView, false);
-//            TextView noteListItem = item.findViewById(R.id.textViewItem);
-//            noteListItem.setText(notes[i]);
-//            layoutView.addView(item);
-//            final int fi = i;
-//
-//            noteListItem.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    indexNote = new Note(getResources().getStringArray(R.array.notes)[fi], fi);
-//                    showFragment(indexNote);
-//                }
-//            });
-//        }
-//    }
+    private void clearLandFragment() {
+        FragmentLandNote details = FragmentLandNote.newInstanceClear();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, details);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(INDEX, indexNote);
+        outState.putParcelable(NOTE, note);
         super.onSaveInstanceState(outState);
     }
 
@@ -120,8 +115,8 @@ public class FragmentNotesList extends Fragment {
         }
     }
 
-    private void showLandFragment(Note indexNote) {
-        FragmentNote details = FragmentNote.newInstance(indexNote);
+    private void showLandFragment(Note note) {
+        FragmentLandNote details = FragmentLandNote.newInstance(note);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment, details);
@@ -129,10 +124,12 @@ public class FragmentNotesList extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void showPortFragment(Note indexNote) {
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), PortraitActivity.class);
-        intent.putExtra(FragmentNote.NOTE, indexNote);
-        startActivity(intent);
+    private void showPortFragment(Note note) {
+        FragmentPortNote details = FragmentPortNote.newInstance(note);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.notes, details);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 }

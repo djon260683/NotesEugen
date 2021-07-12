@@ -29,11 +29,11 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <fragment
+            <FrameLayout
                 android:id="@+id/notes"
-                android:name="ru.eugen.noteseugen.ui.FragmentNotesList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></fragment>
+                android:layout_height="match_parent"></FrameLayout>
+
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

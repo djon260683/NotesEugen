@@ -5,28 +5,31 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import ru.eugen.noteseugen.data.Note;
 import ru.eugen.noteseugen.R;
+import ru.eugen.noteseugen.data.Note;
 
-public class FragmentNote extends Fragment {
+
+public class FragmentPortNote extends Fragment {
+
     public static final String NOTE = "NOTE";
     private Note note;
 
-    public FragmentNote() {
+    public FragmentPortNote() {
         // Required empty public constructor
     }
 
-    public static FragmentNote newInstance(Note note) {
-        FragmentNote fragment = new FragmentNote();
+    public static FragmentPortNote newInstance(Note note) {
+        FragmentPortNote fragment = new FragmentPortNote();
         Bundle args = new Bundle();
         args.putParcelable(NOTE, note);
         fragment.setArguments(args);
@@ -43,7 +46,7 @@ public class FragmentNote extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_note, container, false);
+        View view = inflater.inflate(R.layout.fragment_port_note, container, false);
         TextView tv_note = view.findViewById(R.id.note);
         initPopupMenu(view, tv_note);
         TextView tv_date = view.findViewById(R.id.date);
@@ -61,6 +64,18 @@ public class FragmentNote extends Fragment {
         tv_essence.setText(notesEssence[note.getIndex()]);
         tv_essence.setTextSize(22);
 
+        Button btBack = view.findViewById(R.id.buttonBack);
+        btBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentNotesList details = FragmentNotesList.newInstance();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.notes, details);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.commit();
+            }
+        });
         return view;
     }
 
