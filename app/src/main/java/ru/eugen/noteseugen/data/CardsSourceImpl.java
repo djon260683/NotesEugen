@@ -37,4 +37,24 @@ public class CardsSourceImpl implements CardsSource {
     public int size() {
         return dataSource.size();
     }
+
+    @Override
+    public void deleteCard(int position) {
+        dataSource.remove(position);
+    }
+
+    @Override
+    public void updateCard(int position, Card card) {
+        dataSource.set(position, card);
+    }
+
+    @Override
+    public void addCard(Card card) {
+        dataSource.add(card);
+    }
+
+    @Override
+    public void clearCard() {
+        dataSource.clear();
+    }
 }

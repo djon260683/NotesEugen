@@ -11,9 +11,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
 import ru.eugen.noteseugen.data.CardsSourceImpl;
 import ru.eugen.noteseugen.data.Note;
@@ -24,6 +30,9 @@ public class FragmentNotesList extends Fragment {
     private Note note;
     private boolean isLandscape;
     public static boolean isInstance;
+    private CardsSource cardsSource;
+    private NotesAdapter adapter;
+    private RecyclerView recyclerView;
 
     public static FragmentNotesList newInstance() {
         FragmentNotesList fragment = new FragmentNotesList();
@@ -44,21 +53,48 @@ public class FragmentNotesList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-        CardsSource notes = new CardsSourceImpl(getResources()).init();
-        initRecyclerView(recyclerView, notes);
+        cardsSource = new CardsSourceImpl(getResources()).init();
+        initView(view);
+        setHasOptionsMenu(true);
         return view;
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_noteslist, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size()));
+                adapter.notifyItemInserted(cardsSource.size() - 1);
+                recyclerView.scrollToPosition(cardsSource.size() - 1);
+                return true;
+            case R.id.action_clear:
+                cardsSource.clearCard();
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-    private void initRecyclerView(RecyclerView recyclerView, CardsSource notes) {
+    private void initView(View view) {
+        recyclerView = view.findViewById(R.id.recycler_view_lines);
+        cardsSource = new CardsSourceImpl(getResources()).init();
+        initRecyclerView();
+    }
+
+
+    private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        NotesAdapter adapter = new NotesAdapter(notes);
+        adapter = new NotesAdapter(cardsSource);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         recyclerView.addItemDecoration(itemDecoration);
 
         adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
@@ -81,13 +117,13 @@ public class FragmentNotesList extends Fragment {
             note = savedInstanceState.getParcelable(NOTE);
         }
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        if (isLandscape==true && note == null) {
+        if (isLandscape == true && note == null) {
             clearLandFragment();
         }
-        if (isLandscape==true && note != null && isInstance == false) {
+        if (isLandscape == true && note != null && isInstance == false) {
             showLandFragment(note);
         }
-        if (isLandscape==false && note != null) {
+        if (isLandscape == false && note != null) {
             showPortFragment(note);
         }
     }

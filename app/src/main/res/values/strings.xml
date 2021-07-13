@@ -12,6 +12,8 @@
     <string name="name_master">Евгений</string>
     <string name="text_dop_info">Почтовый индекс: 628400</string>
     <string name="text_name_header">Мои Заметки и Задачи</string>
+    <string name="menu_app_add">Добавить</string>
+    <string name="menu_app_clear">Очистить</string>
 
     <string-array name="notes">
         <item>Дела</item>
