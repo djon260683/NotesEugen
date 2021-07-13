@@ -14,6 +14,8 @@
     <string name="text_name_header">Мои Заметки и Задачи</string>
     <string name="menu_app_add">Добавить</string>
     <string name="menu_app_clear">Очистить</string>
+    <string name="menu_context_update">Изменить</string>
+    <string name="menu_context_delete">Удалить</string>
 
     <string-array name="notes">
         <item>Дела</item>

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.eugen.noteseugen.R;
@@ -15,9 +16,12 @@ import ru.eugen.noteseugen.data.CardsSource;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     private CardsSource dataSource;
     private OnItemClickListener itemClickListener;
+    private final Fragment fragment;
 
-    public NotesAdapter(CardsSource dataSource) {
+
+    public NotesAdapter(CardsSource dataSource, Fragment fragment) {
         this.dataSource = dataSource;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -51,11 +55,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
         private TextView date;
         private TextView essence;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             note = itemView.findViewById(R.id.note);
             date = itemView.findViewById(R.id.date);
             essence = itemView.findViewById(R.id.essence);
+
+            registerContextMenu(itemView);
 
             note.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,6 +71,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
                     }
                 }
             });
+            note.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    itemView.showContextMenu(10, 10);
+                    return true;
+                }
+            });
+        }
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null){
+                fragment.registerForContextMenu(itemView);
+            }
         }
         public void setData(Card cardData){
             note.setText(cardData.getNote());
