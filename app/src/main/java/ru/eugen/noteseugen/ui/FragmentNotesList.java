@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class FragmentNotesList extends Fragment {
     private CardsSource cardsSource;
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
+    private static final int MY_DEFAULT_DURATION = 1000;
 
     public static FragmentNotesList newInstance() {
         FragmentNotesList fragment = new FragmentNotesList();
@@ -99,6 +101,11 @@ public class FragmentNotesList extends Fragment {
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         recyclerView.addItemDecoration(itemDecoration);
 
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(MY_DEFAULT_DURATION);
+        animator.setRemoveDuration(MY_DEFAULT_DURATION);
+        recyclerView.setItemAnimator(animator);
+
         adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -115,12 +122,17 @@ public class FragmentNotesList extends Fragment {
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getMenuPosition();
         switch(item.getItemId()) {
             case R.id.action_update:
-// Do some stuff
+                cardsSource.updateCard(position, new Card("New "+cardsSource.getCard(position).getNote(),
+                        "New "+cardsSource.getCard(position).getDate(),
+                        "New "+cardsSource.getCard(position).getEssence()));
+                adapter.notifyItemChanged(position);
                 return true;
             case R.id.action_delete:
-// Do some stuff
+                cardsSource.deleteCard(position);
+                adapter.notifyItemRemoved(position);
                 return true;
         }
         return super.onContextItemSelected(item);
