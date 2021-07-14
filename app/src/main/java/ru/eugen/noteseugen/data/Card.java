@@ -1,15 +1,42 @@
 package ru.eugen.noteseugen.data;
 
-public class Card {
-    private String note;
-    private String date;
-    private String essence;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public Card(String note, String date, String essence) {
+import java.util.Date;
+
+public class Card implements Parcelable {
+    private String note;
+    private String dateS;
+    private String essence;
+    private Date date;
+
+
+    public Card(String note, String dateS, String essence, Date date) {
         this.note = note;
-        this.date = date;
+        this.dateS = dateS;
         this.essence = essence;
+        this.date = date;
     }
+
+    protected Card(Parcel in) {
+        note = in.readString();
+        dateS = in.readString();
+        essence = in.readString();
+        date = new Date(in.readLong());
+    }
+
+    public static final Creator<Card> CREATOR = new Creator<Card>() {
+        @Override
+        public Card createFromParcel(Parcel in) {
+            return new Card(in);
+        }
+
+        @Override
+        public Card[] newArray(int size) {
+            return new Card[size];
+        }
+    };
 
     public String getNote() {
         return note;
@@ -19,12 +46,12 @@ public class Card {
         this.note = note;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateS() {
+        return dateS;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.dateS = date;
     }
 
     public String getEssence() {
@@ -33,5 +60,20 @@ public class Card {
 
     public void setEssence(String essence) {
         this.essence = essence;
+    }
+    public Date getDate() {
+        return date;
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(note);
+        dest.writeString(dateS);
+        dest.writeString(essence);
+        dest.writeLong(date.getTime());
     }
 }

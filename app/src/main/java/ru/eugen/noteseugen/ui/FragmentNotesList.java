@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Calendar;
+
 import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
 import ru.eugen.noteseugen.data.CardsSourceImpl;
@@ -70,7 +72,7 @@ public class FragmentNotesList extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size()));
+                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size(), Calendar.getInstance().getTime()));
                 adapter.notifyItemInserted(cardsSource.size() - 1);
                 recyclerView.scrollToPosition(cardsSource.size() - 1);
                 return true;
@@ -127,7 +129,7 @@ public class FragmentNotesList extends Fragment {
             case R.id.action_update:
                 cardsSource.updateCard(position, new Card("New "+cardsSource.getCard(position).getNote(),
                         "New "+cardsSource.getCard(position).getDate(),
-                        "New "+cardsSource.getCard(position).getEssence()));
+                        "New "+cardsSource.getCard(position).getEssence(), Calendar.getInstance().getTime()));
                 adapter.notifyItemChanged(position);
                 return true;
             case R.id.action_delete:

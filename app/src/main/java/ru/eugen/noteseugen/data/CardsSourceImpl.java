@@ -3,6 +3,7 @@ package ru.eugen.noteseugen.data;
 import android.content.res.Resources;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import ru.eugen.noteseugen.R;
@@ -23,7 +24,7 @@ public class CardsSourceImpl implements CardsSource {
         String[] essence = resources.getStringArray(R.array.essence);
 
         for (int i = 0; i < notes.length; i++) {
-            dataSource.add(new Card(notes[i], date[i], essence[i]));
+            dataSource.add(new Card(notes[i], date[i], essence[i], Calendar.getInstance().getTime()));
         }
         return this;
     }
