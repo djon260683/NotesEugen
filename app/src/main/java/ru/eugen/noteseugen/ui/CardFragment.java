@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,15 +26,18 @@ public class CardFragment extends Fragment {
     private static final String ARG_CARD_DATA = "Param_Card";
     private Card card;
     private Publisher publisher;
-    private TextInputEditText title;
-    private TextInputEditText description;
+    private TextInputEditText note;
+    private TextInputEditText essence;
     private DatePicker datePicker;
 
 
     public CardFragment() {
 
     }
-
+    public static CardFragment newInstance() {
+        CardFragment fragment = new CardFragment();
+        return fragment;
+    }
     public static CardFragment newInstance(Card card) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
@@ -73,14 +78,14 @@ public class CardFragment extends Fragment {
         return view;
     }
     private void initView(View view) {
-        title = view.findViewById(R.id.inputTitle);
-        description = view.findViewById(R.id.inputDescription);
+        note = view.findViewById(R.id.inputTitle);
+        essence = view.findViewById(R.id.inputDescription);
         datePicker = view.findViewById(R.id.inputDate);
     }
     private void populateView(){
-        title.setText(cardData.getTitle());
-        description.setText(cardData.getDescription());
-        initDatePicker(cardData.getDate());
+        note.setText(card.getNote());
+        essence.setText(card.getEssence());
+        initDatePicker(card.getDate());
     }
     private void initDatePicker(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -103,20 +108,20 @@ public class CardFragment extends Fragment {
         publisher.notifySingle(card);
     }
 
-    private Card collectCardData(){
-        String title = this.title.getText().toString();
-        String description = this.description.getText().toString();
+    private Card collectCard(){
+        String note = this.note.getText().toString();
+        String essence = this.essence.getText().toString();
         Date date = getDateFromDatePicker();
         int picture;
         boolean like;
         if (card != null){
-            picture = card.getPicture();
-            like = card.isLike();
+//            picture = card.getPicture();
+//            like = card.isLike();
         } else {
-            picture = R.drawable.nature1;
-            like = false;
+//            picture = R.drawable.nature1;
+//            like = false;
         }
-        return new Card(title, description, picture, like, date);
+        return new Card(note, essence, essence, date);
     }
 
     private Date getDateFromDatePicker() {

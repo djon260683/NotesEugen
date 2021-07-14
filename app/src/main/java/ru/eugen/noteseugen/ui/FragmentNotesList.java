@@ -174,25 +174,25 @@ public class FragmentNotesList extends Fragment {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position = adapter.getMenuPosition();
         switch (item.getItemId()) {
-//            case R.id.action_update:
+            case R.id.action_update:
 //                cardsSource.updateCard(position, new Card("New " + cardsSource.getCard(position).getNote(),
 //                        "New " + cardsSource.getCard(position).getDate(),
 //                        "New " + cardsSource.getCard(position).getEssence(), Calendar.getInstance().getTime()));
 //                adapter.notifyItemChanged(position);
 
 
-            cardsSource.updateCard(position,
-                    new Card("Кадр " + position,
-                            cardsSource.getCard(position).getDescription(),
-                            cardsSource.getCard(position).getPicture(),
-                            false));
-            adapter.notifyItemChanged(position);
-            navigation.addFragment(CardFragment.newInstance(data.getCardData(position)),true);
+//            cardsSource.updateCard(position,
+//                    new Card("Кадр " + position,
+//                            cardsSource.getCard(position).getNote(),
+//                            cardsSource.getCard(position).getEssence(),
+//                            cardsSource.getCard(position).getEssence()));
+//            adapter.notifyItemChanged(position);
+            navigation.addFragment(CardFragment.newInstance(cardsSource.getCard(position)),true);
 
             publisher.subscribe(new Observer() {
                 @Override
-                public void updateCardData(CardData cardData) {
-                    data.updateCardData(position, cardData);
+                public void updateCard(Card card) {
+                    cardsSource.updateCard(position, card);
                     adapter.notifyItemChanged(position);
                 }
             });

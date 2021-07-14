@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+
 import ru.eugen.noteseugen.R;
 import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
@@ -18,6 +20,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     private OnItemClickListener itemClickListener;
     private final Fragment fragment;
     private int menuPosition;
+
 
     public NotesAdapter(CardsSource dataSource, Fragment fragment) {
         this.dataSource = dataSource;
@@ -54,14 +57,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView note;
-        private TextView date;
+        private TextView dates;
         private TextView essence;
+        private TextView date;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             note = itemView.findViewById(R.id.note);
-            date = itemView.findViewById(R.id.date);
+            dates = itemView.findViewById(R.id.dates);
             essence = itemView.findViewById(R.id.essence);
+            date = itemView.findViewById(R.id.date);
 
             registerContextMenu(itemView);
 
@@ -94,10 +99,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
                 fragment.registerForContextMenu(itemView);
             }
         }
-        public void setData(Card cardData){
-            note.setText(cardData.getNote());
-            date.setText(cardData.getDate());
-            essence.setText(cardData.getEssence());
+        public void setData(Card card){
+            note.setText(card.getNote());
+            dates.setText(card.getDateS());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(card.getDate()));
+            essence.setText(card.getEssence());
         }
     }
 }
