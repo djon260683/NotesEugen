@@ -17,22 +17,29 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
+import ru.eugen.noteseugen.observe.Publisher;
 import ru.eugen.noteseugen.ui.FragmentNotesList;
 
 
 public class MainActivity extends AppCompatActivity {
+    private Navigation navigation;
+    private Publisher publisher = new Publisher();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(savedInstanceState==null){
-            FragmentNotesList details = FragmentNotesList.newInstance();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.notes, details);
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.commit();
+            navigation = new Navigation(getSupportFragmentManager());
+            getNavigation().addFragment(FragmentNotesList.newInstance(), false);
+
+//            FragmentNotesList details = FragmentNotesList.newInstance();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.add(R.id.notes, details);
+//            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            fragmentTransaction.commit();
         }
         initView();
     }
@@ -40,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = initToolBar();
         initDrawer(toolbar);
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+    public Navigation getNavigation() {
+        return navigation;
+    }
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     private Toolbar initToolBar() {

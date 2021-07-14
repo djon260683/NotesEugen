@@ -12,7 +12,7 @@ public class Navigation {
 
     public void addFragment(Fragment fragment, boolean useBackStack) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.notes, fragment);
         if (useBackStack) {
             fragmentTransaction.addToBackStack(null);
         }

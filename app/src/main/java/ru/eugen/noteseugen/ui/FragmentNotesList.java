@@ -1,5 +1,6 @@
 package ru.eugen.noteseugen.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -23,11 +24,15 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
+import ru.eugen.noteseugen.MainActivity;
+import ru.eugen.noteseugen.Navigation;
 import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
 import ru.eugen.noteseugen.data.CardsSourceImpl;
 import ru.eugen.noteseugen.data.Note;
 import ru.eugen.noteseugen.R;
+import ru.eugen.noteseugen.observe.Observer;
+import ru.eugen.noteseugen.observe.Publisher;
 
 public class FragmentNotesList extends Fragment {
     public static final String NOTE = "NOTE";
@@ -38,6 +43,10 @@ public class FragmentNotesList extends Fragment {
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
     private static final int MY_DEFAULT_DURATION = 1000;
+
+    private Navigation navigation;
+    private Publisher publisher;
+    private boolean moveToLastPosition;
 
     public static FragmentNotesList newInstance() {
         FragmentNotesList fragment = new FragmentNotesList();
@@ -55,27 +64,60 @@ public class FragmentNotesList extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cardsSource = new CardsSourceImpl(getResources()).init();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-        cardsSource = new CardsSourceImpl(getResources()).init();
+//        cardsSource = new CardsSourceImpl(getResources()).init();
         initView(view);
         setHasOptionsMenu(true);
         return view;
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MainActivity activity = (MainActivity) context;
+        navigation = activity.getNavigation();
+        publisher = activity.getPublisher();
+    }
+
+    @Override
+    public void onDetach() {
+        navigation = null;
+        publisher = null;
+        super.onDetach();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_noteslist, menu);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size(), Calendar.getInstance().getTime()));
-                adapter.notifyItemInserted(cardsSource.size() - 1);
-                recyclerView.scrollToPosition(cardsSource.size() - 1);
-                return true;
+//                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size(), Calendar.getInstance().getTime()));
+//                adapter.notifyItemInserted(cardsSource.size() - 1);
+//                recyclerView.scrollToPosition(cardsSource.size() - 1);
+//                return true;
+
+                navigation.addFragment(CardFragment.newInstance(), true);
+                publisher.subscribe(new Observer() {
+                    @Override
+                    public void updateCard(Card card) {
+                        cardsSource.addCard(card);
+                        adapter.notifyItemInserted(cardsSource.size() - 1);
+                        moveToLastPosition = true;
+                    }
+                });
             case R.id.action_clear:
                 cardsSource.clearCard();
                 adapter.notifyDataSetChanged();
@@ -107,6 +149,10 @@ public class FragmentNotesList extends Fragment {
         animator.setAddDuration(MY_DEFAULT_DURATION);
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
+        if (moveToLastPosition) {
+            recyclerView.smoothScrollToPosition(cardsSource.size() - 1);
+            moveToLastPosition = false;
+        }
 
         adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
             @Override
@@ -116,22 +162,42 @@ public class FragmentNotesList extends Fragment {
             }
         });
     }
+
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.menu_context, menu);
     }
+
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position = adapter.getMenuPosition();
-        switch(item.getItemId()) {
-            case R.id.action_update:
-                cardsSource.updateCard(position, new Card("New "+cardsSource.getCard(position).getNote(),
-                        "New "+cardsSource.getCard(position).getDate(),
-                        "New "+cardsSource.getCard(position).getEssence(), Calendar.getInstance().getTime()));
-                adapter.notifyItemChanged(position);
-                return true;
+        switch (item.getItemId()) {
+//            case R.id.action_update:
+//                cardsSource.updateCard(position, new Card("New " + cardsSource.getCard(position).getNote(),
+//                        "New " + cardsSource.getCard(position).getDate(),
+//                        "New " + cardsSource.getCard(position).getEssence(), Calendar.getInstance().getTime()));
+//                adapter.notifyItemChanged(position);
+
+
+            cardsSource.updateCard(position,
+                    new Card("Кадр " + position,
+                            cardsSource.getCard(position).getDescription(),
+                            cardsSource.getCard(position).getPicture(),
+                            false));
+            adapter.notifyItemChanged(position);
+            navigation.addFragment(CardFragment.newInstance(data.getCardData(position)),true);
+
+            publisher.subscribe(new Observer() {
+                @Override
+                public void updateCardData(CardData cardData) {
+                    data.updateCardData(position, cardData);
+                    adapter.notifyItemChanged(position);
+                }
+            });
+            return true;
+
             case R.id.action_delete:
                 cardsSource.deleteCard(position);
                 adapter.notifyItemRemoved(position);
@@ -139,6 +205,7 @@ public class FragmentNotesList extends Fragment {
         }
         return super.onContextItemSelected(item);
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
