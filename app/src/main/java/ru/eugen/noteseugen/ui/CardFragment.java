@@ -31,8 +31,6 @@ public class CardFragment extends Fragment {
     private TextInputEditText note;
     private TextInputEditText essence;
     private DatePicker datePicker;
-    private Button btSave;
-    private Button btBack;
 
     public CardFragment() {
 
@@ -92,8 +90,6 @@ public class CardFragment extends Fragment {
         note = view.findViewById(R.id.inputNote);
         essence = view.findViewById(R.id.inputEssense);
         datePicker = view.findViewById(R.id.inputDate);
-        btSave = view.findViewById(R.id.buttonSave);
-        btBack = view.findViewById(R.id.buttonBack);
     }
 
     private void initDatePicker(Date date) {

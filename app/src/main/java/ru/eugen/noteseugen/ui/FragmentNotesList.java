@@ -169,6 +169,7 @@ public class FragmentNotesList extends Fragment {
         int position = adapter.getMenuPosition();
         switch (item.getItemId()) {
             case R.id.action_update:
+                navigation = activity.getNavigation();
                 navigation.addFragment(CardFragment.newInstance(cardsSourceImpl.getCard(position)), true);
                 publisher.subscribe(new Observer() {
                     @Override
