@@ -23,12 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Calendar;
-
 import ru.eugen.noteseugen.MainActivity;
 import ru.eugen.noteseugen.Navigation;
 import ru.eugen.noteseugen.data.Card;
-import ru.eugen.noteseugen.data.CardsSource;
 import ru.eugen.noteseugen.data.CardsSourceImpl;
 import ru.eugen.noteseugen.data.Note;
 import ru.eugen.noteseugen.R;
@@ -36,14 +33,14 @@ import ru.eugen.noteseugen.observe.Observer;
 import ru.eugen.noteseugen.observe.Publisher;
 
 public class FragmentNotesList extends Fragment {
-    public static final String NOTE = "NOTE";
-    private Note note;
     private boolean isLandscape;
     public static boolean isInstance;
-    private CardsSource cardsSource;
+    private CardsSourceImpl cardsSourceImpl;
+    private final String CARDS = "CARDS";
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
     private static final int MY_DEFAULT_DURATION = 1000;
+    private MainActivity activity;
 
     private Navigation navigation;
     private Publisher publisher;
@@ -51,19 +48,26 @@ public class FragmentNotesList extends Fragment {
 
     public static FragmentNotesList newInstance() {
         FragmentNotesList fragment = new FragmentNotesList();
-        isInstance = false;
         return fragment;
     }
+//
+//    public static FragmentNotesList newInstanceNote(Note note) {
+//        FragmentNotesList fragment = new FragmentNotesList();
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+//        isInstance = true;
+//        return fragment;
+//    }
 
-    public static FragmentNotesList newInstanceNote(Note note) {
-        FragmentNotesList fragment = new FragmentNotesList();
-        Bundle args = new Bundle();
-        args.putParcelable(NOTE, note);
-        fragment.setArguments(args);
-        isInstance = true;
-        return fragment;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            cardsSourceImpl = savedInstanceState.getParcelable(CARDS);
+        } else {
+            cardsSourceImpl = new CardsSourceImpl(getResources()).init();
+        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +80,7 @@ public class FragmentNotesList extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        MainActivity activity = (MainActivity) context;
+        activity = (MainActivity) context;
         navigation = activity.getNavigation();
         publisher = activity.getPublisher();
     }
@@ -91,29 +95,25 @@ public class FragmentNotesList extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_noteslist, menu);
-
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-//                cardsSource.addCard(new Card("Заголовок " + cardsSource.size(), "Дата " + cardsSource.size(), "Описание " + cardsSource.size(), Calendar.getInstance().getTime()));
-//                adapter.notifyItemInserted(cardsSource.size() - 1);
-//                recyclerView.scrollToPosition(cardsSource.size() - 1);
-//                return true;
-
+                navigation = activity.getNavigation();
                 navigation.addFragment(CardFragment.newInstance(), true);
                 publisher.subscribe(new Observer() {
                     @Override
                     public void updateCard(Card card) {
-                        cardsSource.addCard(card);
-                        adapter.notifyItemInserted(cardsSource.size() - 1);
+                        cardsSourceImpl.addCard(card);
+                        adapter.notifyItemInserted(cardsSourceImpl.size() - 1);
                         moveToLastPosition = true;
                     }
                 });
+                return true;
             case R.id.action_clear:
-                cardsSource.clearCard();
+                cardsSourceImpl.clearCard();
                 adapter.notifyDataSetChanged();
                 return true;
         }
@@ -122,7 +122,6 @@ public class FragmentNotesList extends Fragment {
 
     private void initView(View view) {
         recyclerView = view.findViewById(R.id.recycler_view_lines);
-        cardsSource = new CardsSourceImpl(getResources()).init();
         initRecyclerView();
     }
 
@@ -132,7 +131,7 @@ public class FragmentNotesList extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new NotesAdapter(cardsSource, this);
+        adapter = new NotesAdapter(cardsSourceImpl, this);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
@@ -145,17 +144,17 @@ public class FragmentNotesList extends Fragment {
         recyclerView.setItemAnimator(animator);
 
         if (moveToLastPosition) {
-            recyclerView.smoothScrollToPosition(cardsSource.size() - 1);
+            recyclerView.smoothScrollToPosition(cardsSourceImpl.size() - 1);
             moveToLastPosition = false;
         }
 
-        adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                note = new Note(getResources().getStringArray(R.array.notes)[position], position);
-                showFragment(note);
-            }
-        });
+//        adapter.SetOnItemClickListener(new NotesAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                note = new Note(getResources().getStringArray(R.array.notes)[position], position);
+//                showFragment(note);
+//            }
+//        });
     }
 
     @Override
@@ -170,18 +169,18 @@ public class FragmentNotesList extends Fragment {
         int position = adapter.getMenuPosition();
         switch (item.getItemId()) {
             case R.id.action_update:
-                navigation.addFragment(CardFragment.newInstance(cardsSource.getCard(position)), true);
+                navigation.addFragment(CardFragment.newInstance(cardsSourceImpl.getCard(position)), true);
                 publisher.subscribe(new Observer() {
                     @Override
                     public void updateCard(Card card) {
-                        cardsSource.updateCard(position, card);
+                        cardsSourceImpl.updateCard(position, card);
                         adapter.notifyItemChanged(position);
                     }
                 });
                 return true;
 
             case R.id.action_delete:
-                cardsSource.deleteCard(position);
+                cardsSourceImpl.deleteCard(position);
                 adapter.notifyItemRemoved(position);
                 return true;
         }
@@ -192,62 +191,62 @@ public class FragmentNotesList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getArguments() != null) {
-            note = getArguments().getParcelable(NOTE);
-        }
-        if (savedInstanceState != null) {
-            note = savedInstanceState.getParcelable(NOTE);
-        }
-        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        if (isLandscape == true && note == null) {
-            clearLandFragment();
-        }
-        if (isLandscape == true && note != null && isInstance == false) {
-            showLandFragment(note);
-        }
-        if (isLandscape == false && note != null) {
-            showPortFragment(note);
-        }
+//        if (getArguments() != null) {
+//            note = getArguments().getParcelable(NOTE);
+//        }
+//        if (savedInstanceState != null) {
+//            note = savedInstanceState.getParcelable(NOTE);
+//        }
+//        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+//        if (isLandscape == true && note == null) {
+//            clearLandFragment();
+//        }
+//        if (isLandscape == true && note != null && isInstance == false) {
+//            showLandFragment(note);
+//        }
+//        if (isLandscape == false && note != null) {
+//            showPortFragment(note);
+//        }
     }
 
-    private void clearLandFragment() {
-        FragmentLandNote details = FragmentLandNote.newInstanceClear();
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, details);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.commit();
-    }
+//    private void clearLandFragment() {
+//        FragmentLandNote details = FragmentLandNote.newInstanceClear();
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment, details);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fragmentTransaction.commit();
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(NOTE, note);
+        outState.putParcelable(CARDS, cardsSourceImpl);
         super.onSaveInstanceState(outState);
     }
 
-    private void showFragment(Note indexNote) {
-        if (isLandscape) {
-            showLandFragment(indexNote);
-        } else {
-            showPortFragment(indexNote);
-        }
-    }
+//    private void showFragment(Note indexNote) {
+//        if (isLandscape) {
+//            showLandFragment(indexNote);
+//        } else {
+//            showPortFragment(indexNote);
+//        }
+//    }
 
-    private void showLandFragment(Note note) {
-        FragmentLandNote details = FragmentLandNote.newInstance(note);
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, details);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.commit();
-    }
+//    private void showLandFragment(Note note) {
+//        FragmentLandNote details = FragmentLandNote.newInstance(note);
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment, details);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fragmentTransaction.commit();
+//    }
 
-    private void showPortFragment(Note note) {
-        FragmentPortNote details = FragmentPortNote.newInstance(note);
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.notes, details);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.commit();
-    }
+//    private void showPortFragment(Note note) {
+//        FragmentPortNote details = FragmentPortNote.newInstance(note);
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.add(R.id.notes, details);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fragmentTransaction.commit();
+//    }
 }

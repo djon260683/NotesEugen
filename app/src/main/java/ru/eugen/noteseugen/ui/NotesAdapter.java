@@ -39,6 +39,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull  NotesAdapter.ViewHolder viewHolder, int position) {
         viewHolder.setData(cardsSource.getCard(position));
+
     }
 
     @Override
