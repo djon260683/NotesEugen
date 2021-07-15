@@ -6,9 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,15 +31,18 @@ public class CardFragment extends Fragment {
     private TextInputEditText note;
     private TextInputEditText essence;
     private DatePicker datePicker;
-
+    private Button btSave;
+    private Button btBack;
 
     public CardFragment() {
 
     }
+
     public static CardFragment newInstance() {
         CardFragment fragment = new CardFragment();
         return fragment;
     }
+
     public static CardFragment newInstance(Card card) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
@@ -69,7 +74,6 @@ public class CardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_card, container, false);
         initView(view);
         if (card != null) {
@@ -77,16 +81,21 @@ public class CardFragment extends Fragment {
         }
         return view;
     }
-    private void initView(View view) {
-        note = view.findViewById(R.id.inputTitle);
-        essence = view.findViewById(R.id.inputDescription);
-        datePicker = view.findViewById(R.id.inputDate);
-    }
-    private void populateView(){
+
+    private void populateView() {
         note.setText(card.getNote());
         essence.setText(card.getEssence());
         initDatePicker(card.getDate());
     }
+
+    private void initView(View view) {
+        note = view.findViewById(R.id.inputNote);
+        essence = view.findViewById(R.id.inputEssense);
+        datePicker = view.findViewById(R.id.inputDate);
+        btSave = view.findViewById(R.id.buttonSave);
+        btBack = view.findViewById(R.id.buttonBack);
+    }
+
     private void initDatePicker(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -98,30 +107,21 @@ public class CardFragment extends Fragment {
 
     @Override
     public void onStop() {
-        super.onStop();
         card = collectCard();
+        super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         publisher.notifySingle(card);
+        super.onDestroy();
     }
 
-    private Card collectCard(){
+    private Card collectCard() {
         String note = this.note.getText().toString();
         String essence = this.essence.getText().toString();
         Date date = getDateFromDatePicker();
-        int picture;
-        boolean like;
-        if (card != null){
-//            picture = card.getPicture();
-//            like = card.isLike();
-        } else {
-//            picture = R.drawable.nature1;
-//            like = false;
-        }
-        return new Card(note, essence, essence, date);
+        return new Card(note, essence, date);
     }
 
     private Date getDateFromDatePicker() {

@@ -59,13 +59,11 @@ public class FragmentLandNote extends Fragment {
         initPopupMenu(view, tv_essence);
 
         String[] notes = getResources().getStringArray(R.array.notes);
-        String[] notesDate = getResources().getStringArray(R.array.date);
         String[] notesEssence = getResources().getStringArray(R.array.essence);
 
         if (note != null) {
             tv_note.setText(notes[note.getIndex()]);
             tv_note.setTextSize(18);
-            tv_date.setText(notesDate[note.getIndex()]);
             tv_date.setTextSize(14);
             tv_essence.setText(notesEssence[note.getIndex()]);
             tv_essence.setTextSize(22);

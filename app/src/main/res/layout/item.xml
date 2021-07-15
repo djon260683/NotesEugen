@@ -18,26 +18,20 @@
             android:textSize="@dimen/textSize_name_master"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/dates"
-            android:textSize="@dimen/textSize_dop_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="TextView" />
-
         <TextView
             android:id="@+id/essence"
             android:textSize="@dimen/textSize_dop_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/textSize_dop_info"
+            android:text="TextView" />
+
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -12,16 +12,14 @@ public class Card implements Parcelable {
     private Date date;
 
 
-    public Card(String note, String dateS, String essence, Date date) {
+    public Card(String note, String essence, Date date) {
         this.note = note;
-        this.dateS = dateS;
         this.essence = essence;
         this.date = date;
     }
 
     protected Card(Parcel in) {
         note = in.readString();
-        dateS = in.readString();
         essence = in.readString();
         date = new Date(in.readLong());
     }
@@ -44,10 +42,6 @@ public class Card implements Parcelable {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getDateS() {
-        return dateS;
     }
 
     public void setDate(String date) {

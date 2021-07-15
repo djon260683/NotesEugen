@@ -1,5 +1,7 @@
 package ru.eugen.noteseugen.observe;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +13,15 @@ public class Publisher {
     public Publisher() {
         observers = new ArrayList<>();
     }
+
     public void subscribe(Observer observer) {
         observers.add(observer);
     }
+
     public void unsubscribe(Observer observer) {
         observers.remove(observer);
     }
+
     public void notifySingle(Card card) {
         for (Observer observer : observers) {
             observer.updateCard(card);

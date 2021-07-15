@@ -16,14 +16,14 @@ import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
-    private CardsSource dataSource;
+    private CardsSource cardsSource;
     private OnItemClickListener itemClickListener;
     private final Fragment fragment;
     private int menuPosition;
 
 
-    public NotesAdapter(CardsSource dataSource, Fragment fragment) {
-        this.dataSource = dataSource;
+    public NotesAdapter(CardsSource cardsSource, Fragment fragment) {
+        this.cardsSource = cardsSource;
         this.fragment = fragment;
     }
     public int getMenuPosition() {
@@ -38,12 +38,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull  NotesAdapter.ViewHolder viewHolder, int position) {
-        viewHolder.setData(dataSource.getCard(position));
+        viewHolder.setData(cardsSource.getCard(position));
     }
 
     @Override
     public int getItemCount() {
-        return dataSource.size();
+        return cardsSource.size();
     }
 
     public interface OnItemClickListener {
@@ -64,7 +64,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             note = itemView.findViewById(R.id.note);
-            dates = itemView.findViewById(R.id.dates);
             essence = itemView.findViewById(R.id.essence);
             date = itemView.findViewById(R.id.date);
 
@@ -101,7 +100,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
         }
         public void setData(Card card){
             note.setText(card.getNote());
-            dates.setText(card.getDateS());
             date.setText(new SimpleDateFormat("dd-MM-yy").format(card.getDate()));
             essence.setText(card.getEssence());
         }

@@ -1,6 +1,7 @@
 package ru.eugen.noteseugen.data;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,53 +10,51 @@ import java.util.List;
 import ru.eugen.noteseugen.R;
 
 public class CardsSourceImpl implements CardsSource {
-    private List<Card> dataSource;
+    private List<Card> cardsSource;
     private Resources resources;
 
-
     public CardsSourceImpl(Resources resources) {
-        dataSource = new ArrayList<>(5);
+        cardsSource = new ArrayList<>(5);
         this.resources = resources;
     }
 
     public CardsSourceImpl init(){
         String[] notes = resources.getStringArray(R.array.notes);
-        String[] date = resources.getStringArray(R.array.date);
         String[] essence = resources.getStringArray(R.array.essence);
-
         for (int i = 0; i < notes.length; i++) {
-            dataSource.add(new Card(notes[i], date[i], essence[i], Calendar.getInstance().getTime()));
+            cardsSource.add(new Card(notes[i], essence[i], Calendar.getInstance().getTime()));
         }
+        Log.d("Log", "CardsSourceImpl");
         return this;
     }
 
     @Override
     public Card getCard(int position) {
-        return dataSource.get(position);
+        return cardsSource.get(position);
     }
 
     @Override
     public int size() {
-        return dataSource.size();
+        return cardsSource.size();
     }
 
     @Override
     public void deleteCard(int position) {
-        dataSource.remove(position);
+        cardsSource.remove(position);
     }
 
     @Override
     public void updateCard(int position, Card card) {
-        dataSource.set(position, card);
+        cardsSource.set(position, card);
     }
 
     @Override
     public void addCard(Card card) {
-        dataSource.add(card);
+        cardsSource.add(card);
     }
 
     @Override
     public void clearCard() {
-        dataSource.clear();
+        cardsSource.clear();
     }
 }

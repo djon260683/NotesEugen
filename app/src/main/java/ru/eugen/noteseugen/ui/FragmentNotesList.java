@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,17 +64,10 @@ public class FragmentNotesList extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        cardsSource = new CardsSourceImpl(getResources()).init();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-//        cardsSource = new CardsSourceImpl(getResources()).init();
         initView(view);
         setHasOptionsMenu(true);
         return view;
@@ -149,6 +143,7 @@ public class FragmentNotesList extends Fragment {
         animator.setAddDuration(MY_DEFAULT_DURATION);
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
+
         if (moveToLastPosition) {
             recyclerView.smoothScrollToPosition(cardsSource.size() - 1);
             moveToLastPosition = false;
@@ -175,28 +170,15 @@ public class FragmentNotesList extends Fragment {
         int position = adapter.getMenuPosition();
         switch (item.getItemId()) {
             case R.id.action_update:
-//                cardsSource.updateCard(position, new Card("New " + cardsSource.getCard(position).getNote(),
-//                        "New " + cardsSource.getCard(position).getDate(),
-//                        "New " + cardsSource.getCard(position).getEssence(), Calendar.getInstance().getTime()));
-//                adapter.notifyItemChanged(position);
-
-
-//            cardsSource.updateCard(position,
-//                    new Card("Кадр " + position,
-//                            cardsSource.getCard(position).getNote(),
-//                            cardsSource.getCard(position).getEssence(),
-//                            cardsSource.getCard(position).getEssence()));
-//            adapter.notifyItemChanged(position);
-            navigation.addFragment(CardFragment.newInstance(cardsSource.getCard(position)),true);
-
-            publisher.subscribe(new Observer() {
-                @Override
-                public void updateCard(Card card) {
-                    cardsSource.updateCard(position, card);
-                    adapter.notifyItemChanged(position);
-                }
-            });
-            return true;
+                navigation.addFragment(CardFragment.newInstance(cardsSource.getCard(position)), true);
+                publisher.subscribe(new Observer() {
+                    @Override
+                    public void updateCard(Card card) {
+                        cardsSource.updateCard(position, card);
+                        adapter.notifyItemChanged(position);
+                    }
+                });
+                return true;
 
             case R.id.action_delete:
                 cardsSource.deleteCard(position);

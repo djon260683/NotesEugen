@@ -10,7 +10,7 @@ public class Navigation {
         this.fragmentManager = fragmentManager;
     }
 
-    public void addFragment(Fragment fragment, boolean useBackStack) {
+    public void replaceFragment(Fragment fragment, boolean useBackStack) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.notes, fragment);
         if (useBackStack) {
@@ -18,4 +18,15 @@ public class Navigation {
         }
         fragmentTransaction.commit();
     }
+
+    public void addFragment(Fragment fragment, boolean useBackStack) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.notes, fragment);
+        if (useBackStack) {
+            fragmentTransaction.addToBackStack(null);
+        }
+        fragmentTransaction.commit();
+    }
+
+
 }
