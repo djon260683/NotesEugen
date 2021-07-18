@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206569666563",
+    "project_id": "noteseugen",
+    "storage_bucket": "noteseugen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206569666563:android:aaa704ce41138e32d17636",
+        "android_client_info": {
+          "package_name": "ru.eugen.noteseugen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206569666563-2qsueiel8m354abi4l4rl6u7kne3pqh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHlc8JrBY9KXZZXabYKzbPvqAA9NECEcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206569666563-2qsueiel8m354abi4l4rl6u7kne3pqh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
