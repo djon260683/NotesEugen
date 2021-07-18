@@ -1,6 +1,7 @@
 package ru.eugen.noteseugen.data;
 
 public interface CardsSource {
+    CardsSource init(CardsSourceResponse cardsSourceResponse);
     Card getCard(int position);
     int size();
     void deleteCard(int position);

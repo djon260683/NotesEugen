@@ -6,6 +6,16 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Card implements Parcelable {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String note;
     private String dateS;
     private String essence;

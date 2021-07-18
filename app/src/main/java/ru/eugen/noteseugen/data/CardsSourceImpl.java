@@ -45,11 +45,24 @@ public class CardsSourceImpl implements CardsSource, Parcelable {
         }
     };
 
-    public CardsSourceImpl init(){
+//    public CardsSourceImpl init(){
+//        String[] notes = resources.getStringArray(R.array.notes);
+//        String[] essence = resources.getStringArray(R.array.essence);
+//        for (int i = 0; i < notes.length; i++) {
+//            cardsSourceImpl.add(new Card(notes[i], essence[i], Calendar.getInstance().getTime()));
+//        }
+//        return this;
+//    }
+
+    @Override
+    public CardsSource init(CardsSourceResponse cardsSourceResponse) {
         String[] notes = resources.getStringArray(R.array.notes);
         String[] essence = resources.getStringArray(R.array.essence);
         for (int i = 0; i < notes.length; i++) {
             cardsSourceImpl.add(new Card(notes[i], essence[i], Calendar.getInstance().getTime()));
+        }
+        if (cardsSourceResponse != null){
+            cardsSourceResponse.initialized(this);
         }
         return this;
     }

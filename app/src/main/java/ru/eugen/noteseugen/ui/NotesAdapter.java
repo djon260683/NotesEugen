@@ -22,9 +22,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     private int menuPosition;
 
 
-    public NotesAdapter(CardsSource cardsSource, Fragment fragment) {
+    public NotesAdapter(Fragment fragment) {
         this.cardsSource = cardsSource;
         this.fragment = fragment;
+    }
+    public void setDataSource(CardsSource cardsSource){
+        this.cardsSource = cardsSource;
+        notifyDataSetChanged();
     }
     public int getMenuPosition() {
         return menuPosition;

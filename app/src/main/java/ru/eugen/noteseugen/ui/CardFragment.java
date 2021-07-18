@@ -117,7 +117,14 @@ public class CardFragment extends Fragment {
         String note = this.note.getText().toString();
         String essence = this.essence.getText().toString();
         Date date = getDateFromDatePicker();
-        return new Card(note, essence, date);
+        if (card != null){
+            Card answer;
+            answer = new Card(note, essence, date);
+            answer.setId(card.getId());
+            return answer;
+        }else{
+            return new Card(note, essence, date);
+        }
     }
 
     private Date getDateFromDatePicker() {
