@@ -20,10 +20,10 @@ public class CardDataMapping {
         return card;
     }
     public static Map<String, Object> toDocument(Card card){
-        Map<String, Object> answer = new HashMap<>();
-        answer.put(Fields.NOTE, card.getNote());
-        answer.put(Fields.ESSENCE, card.getEssence());
-        answer.put(Fields.DATE, card.getDate());
-        return answer;
+        Map<String, Object> doc = new HashMap<>();
+        doc.put(Fields.NOTE, card.getNote());
+        doc.put(Fields.ESSENCE, card.getEssence());
+        doc.put(Fields.DATE, card.getDate());
+        return doc;
     }
 }

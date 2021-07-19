@@ -1,5 +1,6 @@
 package ru.eugen.noteseugen.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +17,19 @@ import ru.eugen.noteseugen.data.Card;
 import ru.eugen.noteseugen.data.CardsSource;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
-    private CardsSource cardsSource;
+    private CardsSource data;
     private OnItemClickListener itemClickListener;
     private final Fragment fragment;
     private int menuPosition;
 
 
     public NotesAdapter(Fragment fragment) {
-        this.cardsSource = cardsSource;
         this.fragment = fragment;
     }
     public void setDataSource(CardsSource cardsSource){
-        this.cardsSource = cardsSource;
+        this.data = cardsSource;
         notifyDataSetChanged();
+        Log.d("Log", "setDataSource");
     }
     public int getMenuPosition() {
         return menuPosition;
@@ -42,13 +43,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull  NotesAdapter.ViewHolder viewHolder, int position) {
-        viewHolder.setData(cardsSource.getCard(position));
-
+        viewHolder.setData(data.getCard(position));
     }
 
     @Override
     public int getItemCount() {
-        return cardsSource.size();
+        return data.size();
     }
 
     public interface OnItemClickListener {
@@ -60,9 +60,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         private TextView note;
-        private TextView dates;
         private TextView essence;
         private TextView date;
 
