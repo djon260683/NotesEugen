@@ -17,7 +17,6 @@ public class Card implements Parcelable {
     }
 
     private String note;
-    private String dateS;
     private String essence;
     private Date date;
 
@@ -54,10 +53,6 @@ public class Card implements Parcelable {
         this.note = note;
     }
 
-    public void setDate(String date) {
-        this.dateS = date;
-    }
-
     public String getEssence() {
         return essence;
     }
@@ -76,7 +71,6 @@ public class Card implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(note);
-        dest.writeString(dateS);
         dest.writeString(essence);
         dest.writeLong(date.getTime());
     }

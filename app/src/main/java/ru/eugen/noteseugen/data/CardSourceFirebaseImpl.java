@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class CardSourceFirebaseImpl implements CardsSource {
     private static final String CARDS_COLLECTION = "cards";
-    private static final String TAG = "[CardsSourceFirebaseImpl]";
 
     private FirebaseFirestore store = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = store.collection(CARDS_COLLECTION);
@@ -30,7 +29,6 @@ public class CardSourceFirebaseImpl implements CardsSource {
 
     @Override
     public CardSourceFirebaseImpl init(final CardsSourceResponse cardsSourceResponse) {
-        Log.d("Log", "begin onComplete");
         collectionReference.orderBy(CardDataMapping.Fields.DATE, Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -44,7 +42,6 @@ public class CardSourceFirebaseImpl implements CardsSource {
                                 cards.add(card);
                             }
                             cardsSourceResponse.initialized(CardSourceFirebaseImpl.this);
-                            Log.d("Log", "onComplete");
                         }
                     }
                 })
@@ -95,6 +92,9 @@ public class CardSourceFirebaseImpl implements CardsSource {
                 Log.d("Log", "onSuccess addCard");
             }
         });
+//        collectionReference.add(CardDataMapping.toDocument(card));
+//        cards.add(card);
+        Log.d("Log", "end addCard");
     }
 
     @Override

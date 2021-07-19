@@ -31,10 +31,7 @@ import ru.eugen.noteseugen.observe.Observer;
 import ru.eugen.noteseugen.observe.Publisher;
 
 public class FragmentNotesList extends Fragment {
-    private boolean isLandscape;
-    public static boolean isInstance;
     private CardsSource data;
-    private final String CARDS = "CARDS";
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
     private static final int MY_DEFAULT_DURATION = 1000;
@@ -144,7 +141,7 @@ public class FragmentNotesList extends Fragment {
     private boolean onItemSelected(int menuItemId){
         switch (menuItemId){
             case R.id.action_add:
-                navigation.addFragment(CardFragment.newInstance(), true);
+                navigation.replaceFragment(CardFragment.newInstance(), true);
                 publisher.subscribe(new Observer() {
                     @Override
                     public void updateCard(Card card) {
@@ -157,7 +154,7 @@ public class FragmentNotesList extends Fragment {
 
             case R.id.action_update:
                 final int updatePosition = adapter.getMenuPosition();
-                navigation.addFragment(CardFragment.newInstance(data.getCard(updatePosition)), true);
+                navigation.replaceFragment(CardFragment.newInstance(data.getCard(updatePosition)), true);
                 publisher.subscribe(new Observer() {
                     @Override
                     public void updateCard(Card card) {

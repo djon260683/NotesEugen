@@ -32,14 +32,7 @@ public class MainActivity extends AppCompatActivity {
         navigation = new Navigation(getSupportFragmentManager());
         if(navigation == null) {Log.d("Log", "onCreate navigation == null");}
         if(savedInstanceState==null){
-            getNavigation().addFragment(FragmentNotesList.newInstance(), false);
-
-//            FragmentNotesList details = FragmentNotesList.newInstance();
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.add(R.id.notes, details);
-//            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//            fragmentTransaction.commit();
+            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
         }
         initView();
     }
