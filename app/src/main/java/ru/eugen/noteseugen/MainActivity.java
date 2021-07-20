@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import ru.eugen.noteseugen.observe.Publisher;
 import ru.eugen.noteseugen.ui.FragmentNotesList;
+import ru.eugen.noteseugen.ui.StartFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
         navigation = new Navigation(getSupportFragmentManager());
         if(navigation == null) {Log.d("Log", "onCreate navigation == null");}
         if(savedInstanceState==null){
-            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
+//            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
+            getNavigation().replaceFragment(StartFragment.newInstance(), false);
         }
         initView();
     }
