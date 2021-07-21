@@ -7,6 +7,7 @@
     android:layout_gravity="center">
 
     <TextView
+        android:id="@+id/textAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="22sp"
@@ -19,6 +20,7 @@
         android:layout_gravity="center">
 
         <Button
+            android:id="@+id/positiveButton"
             android:layout_width="@dimen/width_0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,6 +29,7 @@
         </Button>
 
         <Button
+            android:id="@+id/negativeButton"
             android:layout_width="@dimen/width_0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

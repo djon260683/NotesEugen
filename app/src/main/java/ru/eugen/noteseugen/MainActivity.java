@@ -13,10 +13,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.navigation.NavigationView;
 
 import ru.eugen.noteseugen.observe.Publisher;
+import ru.eugen.noteseugen.ui.DialogCustomFragment;
 import ru.eugen.noteseugen.ui.FragmentNotesList;
 import ru.eugen.noteseugen.ui.StartFragment;
 
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navigation = new Navigation(getSupportFragmentManager());
-        if(navigation == null) {Log.d("Log", "onCreate navigation == null");}
         if(savedInstanceState==null){
 //            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
             getNavigation().replaceFragment(StartFragment.newInstance(), false);

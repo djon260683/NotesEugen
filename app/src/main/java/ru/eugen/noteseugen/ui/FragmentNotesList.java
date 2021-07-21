@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -108,7 +109,7 @@ public class FragmentNotesList extends Fragment {
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
 
-        if (moveToFirstPosition && data.size() > 0){
+        if (moveToFirstPosition && data.size() > 0) {
             recyclerView.scrollToPosition(0);
             moveToFirstPosition = false;
         }
@@ -138,8 +139,8 @@ public class FragmentNotesList extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    private boolean onItemSelected(int menuItemId){
-        switch (menuItemId){
+    private boolean onItemSelected(int menuItemId) {
+        switch (menuItemId) {
             case R.id.action_add:
                 navigation.replaceFragment(CardFragment.newInstance(), true);
                 publisher.subscribe(new Observer() {
@@ -165,18 +166,29 @@ public class FragmentNotesList extends Fragment {
                 return true;
 
             case R.id.action_delete:
-                int deletePosition = adapter.getMenuPosition();
-                data.deleteCard(deletePosition);
-                adapter.notifyItemRemoved(deletePosition);
-                Log.d("Log", "action_delete");
+                DialogFragment dlgDelete = DialogCustomFragment.newInstance("delete");
+                dlgDelete.show(requireActivity().getSupportFragmentManager(), "transactionTag");
                 return true;
 
             case R.id.action_clear:
-                data.clearCard();
-                adapter.notifyDataSetChanged();
-                Log.d("Log", "action_clear");
+                DialogFragment dlgClear = DialogCustomFragment.newInstance("clear");
+                dlgClear.show(requireActivity().getSupportFragmentManager(), "transactionTag");
                 return true;
         }
         return false;
+    }
+
+    public void onDialogResult(String resultDialog) {
+        switch (resultDialog) {
+            case "clear":
+                data.clearCard();
+                adapter.notifyDataSetChanged();
+                break;
+            case "delete":
+                int deletePosition = adapter.getMenuPosition();
+                data.deleteCard(deletePosition);
+                adapter.notifyItemRemoved(deletePosition);
+                break;
+        }
     }
 }
