@@ -170,9 +170,10 @@ public class StartFragment extends Fragment {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             Log.d("Log", "handleSignInResult");
+            disableSign();
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Регистрация прошла успешно
-            disableSign();
+
             updateUI(account.getEmail());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure

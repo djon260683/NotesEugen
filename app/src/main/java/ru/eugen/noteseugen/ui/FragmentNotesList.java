@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -167,11 +168,13 @@ public class FragmentNotesList extends Fragment {
                 int deletePosition = adapter.getMenuPosition();
                 data.deleteCard(deletePosition);
                 adapter.notifyItemRemoved(deletePosition);
+                Log.d("Log", "action_delete");
                 return true;
 
             case R.id.action_clear:
                 data.clearCard();
                 adapter.notifyDataSetChanged();
+                Log.d("Log", "action_clear");
                 return true;
         }
         return false;

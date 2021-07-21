@@ -16,6 +16,8 @@
     <string name="menu_app_clear">Очистить</string>
     <string name="menu_context_update">Изменить</string>
     <string name="menu_context_delete">Удалить</string>
+    <string name="signOut">Выйти</string>
+    <string name="continueStr">Продолжить...</string>
 
     <string-array name="notes">
         <item>Дела</item>
