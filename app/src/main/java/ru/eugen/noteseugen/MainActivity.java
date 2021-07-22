@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         navigation = new Navigation(getSupportFragmentManager());
         if(savedInstanceState==null){
-//            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
-            getNavigation().replaceFragment(StartFragment.newInstance(), false);
+            getNavigation().replaceFragment(FragmentNotesList.newInstance(), false);
+//            getNavigation().replaceFragment(StartFragment.newInstance(), false);
         }
         initView();
     }

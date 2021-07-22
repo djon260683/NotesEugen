@@ -26,6 +26,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     public NotesAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
+
     public void setDataSource(CardsSource cardsSource){
         this.data = cardsSource;
         notifyDataSetChanged();
@@ -44,7 +45,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull  NotesAdapter.ViewHolder viewHolder, int position) {
         viewHolder.setData(data.getCard(position));
-        Log.d("Log", "onBindViewHolder " + position);
     }
 
     @Override
