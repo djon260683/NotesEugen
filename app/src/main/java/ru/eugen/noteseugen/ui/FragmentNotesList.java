@@ -142,14 +142,6 @@ public class FragmentNotesList extends Fragment {
     private boolean onItemSelected(int menuItemId) {
         switch (menuItemId) {
             case R.id.action_add:
-//                publisher.subscribe(new Observer() {
-//                    @Override
-//                    public void updateCard(Card card) {
-//                        data.addCard(card);
-//                        adapter.notifyItemInserted(data.size() - 1);
-//                        moveToFirstPosition = true;
-//                    }
-//                });
                 DialogFragment dlgAdd = CardDialogFragment.newInstance();
                 dlgAdd.show(requireActivity().getSupportFragmentManager(), "transactionTag");
                 return true;
@@ -159,6 +151,8 @@ public class FragmentNotesList extends Fragment {
                 DialogFragment dlgUpdate = CardDialogFragment.newInstance(data.getCard(updatePosition));
                 dlgUpdate.show(requireActivity().getSupportFragmentManager(), "transactionTag");
                 return true;
+
+
 //            case R.id.action_add:
 //                navigation.replaceFragment(CardFragment.newInstance(), true);
 //                publisher.subscribe(new Observer() {
