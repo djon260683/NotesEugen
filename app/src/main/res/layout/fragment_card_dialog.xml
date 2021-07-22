@@ -23,7 +23,7 @@
                     android:id="@+id/inputNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Наименование заметки" />
+                    android:hint="@string/nameNote" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -35,7 +35,7 @@
                     android:id="@+id/inputEssense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Текст заметки" />
+                    android:hint="@string/textNote" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <DatePicker
@@ -60,7 +60,7 @@
                     android:layout_width="@dimen/width_0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Сохранить">
+                    android:text="@string/fragmentCardDialogSave">
 
                 </Button>
 
@@ -69,7 +69,7 @@
                     android:layout_width="@dimen/width_0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Отмена">
+                    android:text="@string/fragmentCardDialogCancel">
 
                 </Button>
             </LinearLayout>

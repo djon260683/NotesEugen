@@ -18,6 +18,10 @@
     <string name="menu_context_delete">Удалить</string>
     <string name="signOut">Выйти</string>
     <string name="continueStr">Продолжить...</string>
+    <string name="fragmentCardDialogCancel">Отмена</string>
+    <string name="fragmentCardDialogSave">Сохранить</string>
+    <string name="nameNote">Наименование заметки</string>
+    <string name="textNote">Текст заметки</string>
 
     <string-array name="notes">
         <item>Дела</item>
