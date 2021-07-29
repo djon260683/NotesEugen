@@ -1,8 +1,8 @@
-package ru.eugen.noteseugen;
+package ru.eugen.noteseugen
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 class Navigation {
     val fragmentManager: FragmentManager
