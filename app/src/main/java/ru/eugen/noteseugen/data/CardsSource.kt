@@ -1,4 +1,4 @@
-package ru.eugen.noteseugen.data;
+package ru.eugen.noteseugen.data
 
 interface CardsSource {
     fun init(cardsSourceResponse:CardsSourceResponse):CardsSource

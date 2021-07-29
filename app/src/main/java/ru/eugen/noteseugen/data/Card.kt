@@ -1,9 +1,9 @@
-package ru.eugen.noteseugen.data;
+package ru.eugen.noteseugen.data
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Parcel
+import android.os.Parcelable
 
-import java.util.Date;
+import java.util.Date
 
 class Card : Parcelable {
     var id:String

@@ -1,9 +1,9 @@
-package ru.eugen.noteseugen.data;
+package ru.eugen.noteseugen.data
 
-import com.google.firebase.Timestamp;
+import com.google.firebase.Timestamp
 
 import java.util.HashMap;
-import java.util.Map;
+
 
 class CardDataMapping {
     object Fields{
