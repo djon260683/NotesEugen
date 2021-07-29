@@ -15,7 +15,7 @@ class CardDataMapping {
     companion object{
 
         @JvmStatic
-        fun toCard(id2:String , doc:Map<String, Any> ) :Card {
+        fun toCard(id2:String , doc:MutableMap<String, Any> ) :Card {
             val timeStamp: Timestamp  = doc.get(Fields.DATE) as Timestamp
             val card: Card = Card(doc.get(Fields.NOTE) as String,
                     doc.get(Fields.ESSENCE) as String,
