@@ -56,11 +56,9 @@ class CardSourceFirebaseImpl : CardsSource {
     }
 
     override fun addCard(card: Card) {
-        collectionReference.add(CardDataMapping.toDocument(card)).addOnSuccessListener(OnSuccessListener < DocumentReference >() {
-            fun onSuccess(documentReference:DocumentReference) {
-                card.id=(documentReference.id)
-            }
-        });
+        collectionReference.add(CardDataMapping.toDocument(card)).addOnSuccessListener { documentReference ->
+            card.id = documentReference.id
+        }
     }
 
     override fun clearCard() {

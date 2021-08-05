@@ -142,50 +142,25 @@ public class FragmentNotesList extends Fragment {
     private boolean onItemSelected(int menuItemId) {
         switch (menuItemId) {
             case R.id.action_add:
-                DialogFragment dlgAdd = CardDialogFragment.newInstance();
-                dlgAdd.show(requireActivity().getSupportFragmentManager(), "transactionTag");
-                return true;
+            DialogFragment dlgAdd = CardDialogFragment.newInstance();
+            dlgAdd.show(requireActivity().getSupportFragmentManager(), "transactionTag");
+            return true;
 
             case R.id.action_update:
-                final int updatePosition = adapter.getMenuPosition();
-                DialogFragment dlgUpdate = CardDialogFragment.newInstance(data.getCard(updatePosition));
-                dlgUpdate.show(requireActivity().getSupportFragmentManager(), "transactionTag");
-                return true;
-
-
-//            case R.id.action_add:
-//                navigation.replaceFragment(CardFragment.newInstance(), true);
-//                publisher.subscribe(new Observer() {
-//                    @Override
-//                    public void updateCard(Card card) {
-//                        data.addCard(card);
-//                        adapter.notifyItemInserted(data.size() - 1);
-//                        moveToFirstPosition = true;
-//                    }
-//                });
-//                return true;
-//
-//            case R.id.action_update:
-//                final int updatePosition = adapter.getMenuPosition();
-//                navigation.replaceFragment(CardFragment.newInstance(data.getCard(updatePosition)), true);
-//                publisher.subscribe(new Observer() {
-//                    @Override
-//                    public void updateCard(Card card) {
-//                        data.updateCard(updatePosition, card);
-//                        adapter.notifyItemChanged(updatePosition);
-//                    }
-//                });
-//                return true;
+            final int updatePosition = adapter.getMenuPosition();
+            DialogFragment dlgUpdate = CardDialogFragment.newInstance(data.getCard(updatePosition));
+            dlgUpdate.show(requireActivity().getSupportFragmentManager(), "transactionTag");
+            return true;
 
             case R.id.action_delete:
-                DialogFragment dlgDelete = DialogCustomFragment.newInstance("delete");
-                dlgDelete.show(requireActivity().getSupportFragmentManager(), "transactionTag");
-                return true;
+            DialogFragment dlgDelete = DialogCustomFragment.newInstance("delete");
+            dlgDelete.show(requireActivity().getSupportFragmentManager(), "transactionTag");
+            return true;
 
             case R.id.action_clear:
-                DialogFragment dlgClear = DialogCustomFragment.newInstance("clear");
-                dlgClear.show(requireActivity().getSupportFragmentManager(), "transactionTag");
-                return true;
+            DialogFragment dlgClear = DialogCustomFragment.newInstance("clear");
+            dlgClear.show(requireActivity().getSupportFragmentManager(), "transactionTag");
+            return true;
         }
         return false;
     }
@@ -193,28 +168,26 @@ public class FragmentNotesList extends Fragment {
     public void onDialogResult(String resultDialog) {
         switch (resultDialog) {
             case "clear":
-                data.clearCard();
-                adapter.notifyDataSetChanged();
-                break;
+            data.clearCard();
+            adapter.notifyDataSetChanged();
+            break;
             case "delete":
-                int deletePosition = adapter.getMenuPosition();
-                data.deleteCard(deletePosition);
-                adapter.notifyItemRemoved(deletePosition);
-                break;
+            int deletePosition = adapter.getMenuPosition();
+            data.deleteCard(deletePosition);
+            adapter.notifyItemRemoved(deletePosition);
+            break;
         }
     }
 
     public void onDialogResult(String resultDialog, Card card) {
         switch (resultDialog) {
             case "add":
-                data.addCard(card);
-//                adapter.notifyItemInserted(data.size() - 1);
-                break;
+            data.addCard(card);
+            break;
             case "update":
-                final int updatePosition = adapter.getMenuPosition();
-                data.updateCard(updatePosition, card);
-//                adapter.notifyItemChanged(updatePosition);
-                break;
+            final int updatePosition = adapter.getMenuPosition();
+            data.updateCard(updatePosition, card);
+            break;
         }
         data = new CardSourceFirebaseImpl().init(new CardsSourceResponse() {
             @Override

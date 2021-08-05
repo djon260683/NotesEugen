@@ -92,12 +92,12 @@ class StartFragment : Fragment() {
 
         emailView = view.findViewById(R.id.email)
         // Кнопка «Продолжить», будем показывать главный фрагмент
-        continues = view.findViewById(R.id.continues);
+        continues = view.findViewById(R.id.continues)
         continues.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                navigation.replaceFragment(FragmentNotesList.newInstance(),false)
+               navigation.replaceFragment(FragmentNotesList.newInstance(),false)
             }
-        });
+        })
         // Кнопка выхода
         buttonSingOut = view.findViewById(R.id.sing_out_button)
         buttonSingOut.setOnClickListener(object : View.OnClickListener {
@@ -127,7 +127,7 @@ class StartFragment : Fragment() {
                         updateUI("")
                         enableSign()
                     }
-                });
+                })
     }
 
     // Инициируем регистрацию пользователя
